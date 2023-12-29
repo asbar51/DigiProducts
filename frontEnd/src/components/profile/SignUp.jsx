@@ -29,7 +29,7 @@ const SignUp = () => {
             }).catch((err) => console.log(err.message))
             console.log('profile is created successfully')
             // await refetch()
-            navigate('/profile/login')
+            navigate('/.login')
         } catch (error) {
             console.error('Error deleting profile:', error);
         }}

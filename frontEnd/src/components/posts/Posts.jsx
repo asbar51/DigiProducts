@@ -13,7 +13,7 @@ import {
 import { postApi, useDeletePostMutation, useGetAllPostsQuery } from '../../services/postApi'
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from "../ui/skeleton"
-import { Home, HomeIcon, Loader, Loader2, LoaderIcon, LucideHome, LucideLoader, LucideLoader2, Plus } from 'lucide-react'
+import { Home, LucideLoader2, Plus } from 'lucide-react'
 import { Button } from '../ui/button'
 import Course from './Course'
 import { useGetProfileQuery } from '../../services/profileApi'
@@ -24,8 +24,6 @@ const Posts = () => {
     let ID = 1
     const navigate = useNavigate()
     let {data:posts,isLoading,isError,error} = useGetAllPostsQuery()
-    
-    const [deletePost,{isLoading:isLoadingD,isError:isErrorD,error:errorD}] = useDeletePostMutation()
 
     const [MyProfile,setMyProfile] = useState(null)
     let {data:profile} = useGetProfileQuery()
@@ -53,7 +51,7 @@ const Posts = () => {
         </div>
     }
 
-    console.log(posts);
+    console.log("posts",posts);
 
     return (
         <div>
@@ -65,10 +63,10 @@ const Posts = () => {
                 </h1>
                 <Button onClick={() => navigate(`/create`)} className='justify-self-end w-[70px] h-9 text-white p-2 font-bold'><Plus className='text-white m-1' /> Add</Button>
             </div>
-            <div className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-5'>
+            <div className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5'>
                 {   
                     posts.map(p => (
-                        <Course id={p._id} thumbnail={p.thumbnail} price={p.price} instructor={p.instructor} profileUsername={profile?.profile?.username} title={p.title} createdAt={p.createdAt} key={ID++} />
+                        <Course id={p._id} inCart={profile?.profile?.addToCart} thumbnail={p.thumbnail} price={p.price} instructor={p.instructor} profileUsername={profile?.profile?.username} title={p.title} createdAt={p.createdAt} key={ID++} />
                         
                     ))
                 }

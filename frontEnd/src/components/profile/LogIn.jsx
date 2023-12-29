@@ -6,12 +6,15 @@ import { AlertTriangle, StepBackIcon } from 'lucide-react'
 import { useGetProfileQuery, useLoginProfileMutation } from '../../services/profileApi'
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
 import { useEffect, useState } from "react"
+import { useGetFromCartQuery } from "../../services/postApi"
 
 
 const Login = () => {
     const navigate = useNavigate()
     const [loginProfile,{data:post}] = useLoginProfileMutation()
     let {data:posts,refetch} = useGetProfileQuery()
+    let {data:cart,refetch:refetchCart} = useGetFromCartQuery()
+
 
     const [error, setError] = useState(null);
     const [errorMesg, setErrorMsg] = useState(null);
@@ -39,8 +42,9 @@ const Login = () => {
                 default:
                     console.log('Login successful');
                     console.log('Response:', res);
-                    refetch()
-                    navigate('/');
+                    await refetchCart()
+                    refetch().then(()=> navigate('/'))
+                    
             }
         } catch (error) {
             console.error('Error during login:', error);

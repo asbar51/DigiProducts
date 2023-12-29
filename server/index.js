@@ -13,7 +13,7 @@ app.use(cors({
 }))
 app.use(cookieParser())
 app.use(bodyParser.json({limit:"30mb",extended:"true" }))
-app.use(bodyParser.urlencoded({limit:"30mb",extended:"true" }))
+app.use(bodyParser.urlencoded({limit:"30mb",extended:"true" })) //check this info
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));

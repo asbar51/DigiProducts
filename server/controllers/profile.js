@@ -3,6 +3,15 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 dotenv.config()
+import Image from "../models/Image.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs/promises';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+import path from 'path';
 
 export const addProfile = async (req,res) => {
     const formBody = req.body;
@@ -123,3 +132,47 @@ export const logout = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const uploadAvatar = async (req, res) => {
+    try {
+      const filePath = req.file.path;
+      const fileName = req.file.filename
+      console.log('File uploaded:', filePath);
+      console.log('username:', req.user.username);
+    
+    const TheProfile = await profiles.findOne(
+        { username: req.user.username }
+    )
+    console.log(TheProfile?.profilePicture);
+    // check if there is an avatar already and delete it
+    if (TheProfile.profilePicture != 'img') {
+        // Delete the associated image
+        const deletedImage = await Image.findOneAndDelete({ filename: TheProfile.profilePicture });
+        console.log("old Avatar of", req.user, "is deleted");
+
+        // Delete the associated image file from the "uploads" directory
+        const imagePath = path.join(__dirname, '../uploads/images', TheProfile.profilePicture);
+        await fs.unlink(imagePath);
+        console.log("old Avatar file of", req.user, "is deleted from uploads directory");
+    }
+
+    await profiles.findOneAndUpdate(
+        { username: req.user.username },
+        {
+            profilePicture: fileName
+        }
+    )
+    // Save image details to the database
+      const image = new Image({
+        filename: fileName,
+        path: filePath,
+      });
+      await image.save();
+  
+      res.json({ success: true, fileName });
+    } catch (error) {
+      console.log('Error uploading file:', error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+  };
+  

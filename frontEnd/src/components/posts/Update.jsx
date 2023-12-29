@@ -63,14 +63,15 @@ const Update = () => {
         formData.append('createdAt', createdAt.toLocaleString('en-US', { timeZoneName: 'short' }));
         console.log("formData:", formData.get("image"));
         
-        await updatePost({id, formData}).then((updateResponse)=> {
+        updatePost({id, formData}).then( async (updateResponse)=> {
             console.log("upd Res: ", updateResponse)
             if (updateResponse?.data === "logout" || updateResponse.error?.data?.error === 'not allowed') {
                 console.log('Not allowed.');
                 setNotAllowed('not allowed');
             } else {
+                await refetch1()
                 refetch().then(()=> {
-                    navigate('/');
+                    navigate("/profile/store");
                     console.log('Post is updated successfully');
                 })
             }
@@ -82,7 +83,7 @@ const Update = () => {
         <div>
             <div className='w-[90vw] h-[100vh] m-auto'>
                 <button
-                    onClick={() => navigate(`/`)}
+                    onClick={() => navigate(-1)}
                     className='cursor-pointer bg-black text-white font-bold p-1 px-2 m-2 rounded flex'
                 >
                     <StepBackIcon /> Back

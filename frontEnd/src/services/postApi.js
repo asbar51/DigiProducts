@@ -13,6 +13,9 @@ export const postApi = createApi({
         getAllPosts: builder.query({
             query: () => '/'
         }),
+        getMyProducts: builder.query({
+            query: () => '/my_products'
+        }),
         getPost: builder.query({
             query: (id) => `/${id}`
         }),
@@ -21,25 +24,40 @@ export const postApi = createApi({
                 url: '/',
                 method: 'post',
                 body
-            }),
-            invalidatesTags: ['getAllPosts']
+            })
         }),
         deletePost: builder.mutation({
             query: (id) => ({
                 url: `/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['getAllPosts'],
         }),
         UpdatePost: builder.mutation({
             query: ({id,formData}) => ({
                 url: `/${id}`,
                 method: 'PUT',
                 body : formData
-            }),
-            invalidatesTags: ['getAllPosts'],
-        })
+            })
+        }),
+        addToCart: builder.mutation({
+            query: (id) => ({
+                url: `/add_to_cart/${id}`,
+                method: 'post'
+            })
+        }),
+        getFromCart: builder.query({
+            query: () => ({
+                url: `/get_from_cart`
+            })
+        }),
+        removeFromCart: builder.mutation({
+            query: (id) => ({
+                url: `/cart/${id}`,
+                method: 'delete'
+            })
+        }),
     })
 })
 
-export const {useGetAllPostsQuery,useGetPostQuery,useAddPostMutation,useDeletePostMutation,useUpdatePostMutation} = postApi
+export const {useGetAllPostsQuery,useGetPostQuery,useAddPostMutation,useDeletePostMutation,
+    useUpdatePostMutation,useGetMyProductsQuery,useAddToCartMutation,useGetFromCartQuery,useRemoveFromCartMutation} = postApi

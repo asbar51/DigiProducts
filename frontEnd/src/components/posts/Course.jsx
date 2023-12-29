@@ -18,45 +18,101 @@ import { DropdownMenu,
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "../ui/alert-dialog"
-import { DollarSign,Settings, Star } from "lucide-react";
+import { DollarSign,Heart,Settings, ShoppingCart, Star } from "lucide-react";
 import { Button } from "../ui/button";
-import { useDeletePostMutation, useGetAllPostsQuery } from "../../services/postApi";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { useAddToCartMutation, useDeletePostMutation, useGetAllPostsQuery, useGetFromCartQuery, useRemoveFromCartMutation } from "../../services/postApi";
 import { useEffect, useState } from "react";
+import { useGetProfileQuery } from "../../services/profileApi";
 
 
-const Course = ({thumbnail,title,createdAt,price,reviews,id,profileUsername,instructor}) => {
+const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUsername,instructor}) => {
   const navigate = useNavigate()
 
   let {data:posts,refetch} = useGetAllPostsQuery()
   const [deletePost,{isLoading:isLoadingD,isError:isErrorD,error:errorD}] = useDeletePostMutation()
+  let {data:profile,isLoading,isError,error,refetch:refetchProfile} = useGetProfileQuery()
+  const [addToCart,{data:cartAdded}] = useAddToCartMutation()
+  const [removeFromCart,{data:cartRemoved}] = useRemoveFromCartMutation()
+  let {data:cart,isLoading:isLoadingCart,refetch:refetchCart} = useGetFromCartQuery()
+
+
 
   const date = new Date(createdAt)
   const formattedDate = formatDistanceToNow(date, { addSuffix:true })
+
+  const addToCartHandler = async (id) => {
+    console.log("add:",id);
+    await addToCart(id).then(async (resp) => {
+      console.log(resp)
+      await refetchCart()
+      await refetchProfile()
+    })
+  }
+  const removeFromCartHandler = async (id) => {
+    console.log("remove:",id);
+    await removeFromCart(id).then(async (resp) => {
+      console.log(resp)
+      await refetchCart()
+      await refetchProfile()
+    })
+  }
+
   const handleDelete = async (id) => {
     try {
       await deletePost(id);
       console.log('Post deleted successfully');
       refetch()
+
       
     } catch (error) {
         console.error('Error deleting post:', error);
     }
 };
   // console.log("_____________");
-  // console.log("instructor: ", instructor)
+  // console.log("inCart: ", inCart)
+  // console.log("id: ", id)
   // console.log("profileUsername: ", profileUsername)
   return (
     <div>
-      <Card className="w-[100%]  m-auto border-solid border-1 border-gray-600 rounded 
+      <Card className="relative max-sm:w-[270px]  m-auto border-solid border-1 border-gray-600 rounded 
       shadow-lg shadow-gray-500/50">
+        { instructor != profileUsername ? (
+  inCart && inCart.includes(id) ? (
+    <span>
+      <ShoppingCart
+        onClick={() => removeFromCartHandler(id)}
+        className="absolute top-2 right-2 bg-red-600 p-[3px] w-9 rounded cursor-pointer"
+        fill="white"
+        stroke="white"
+      />
+    </span>
+  ) : (
+    <span>
+      <ShoppingCart
+        onClick={() => addToCartHandler(id)}
+        className="absolute top-2 right-2 bg-blue-400 p-[3px] w-9 rounded cursor-pointer"
+        fill="white"
+        stroke="white"
+      />
+    </span>
+  )):null
+}
+
         {
           (thumbnail?
-          <img src={`http://localhost:3000/uploads/images/${thumbnail}`} onClick={()=> navigate(`/posts/${id}`)} className="w-full  h-[150px] object-fill"/>
+            <img src={`http://localhost:3000/uploads/images/${thumbnail}`} onClick={()=> navigate(`/posts/${id}`)} className="w-full  h-[150px] cursor-pointer object-fill"/>
           : null)
         }
         <CardHeader className="h-auto p-1">
           <CardDescription className='flex justify-between  text-[15px] font-bold'>
-            <span className="hover:underline cursor-pointer">{instructor}</span>
+            <span className="flex items-center gap-1">
+              {/* <Avatar className="h-[25px] w-[25px]">
+                <AvatarImage src={`http://localhost:3000/uploads/images/${profile.profile.profilePicture}`} />
+                <AvatarFallback>{instructor[0].toUpperCase()}</AvatarFallback>
+              </Avatar> */}
+              <span className="hover:underline cursor-pointer">{instructor}</span>
+            </span>
             <span className='flex items-center text-black'> 5.0 <Star className="h-5" fill='black' strokeWidth={0} /> (75)</span>
           </CardDescription>
           <CardTitle onClick={()=> navigate(`/posts/${id}`)} className='cursor-pointer text-[18px] h-[50px] hover:underline'>{title}</CardTitle>

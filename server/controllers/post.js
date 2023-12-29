@@ -20,6 +20,22 @@ export const getPosts = async (req,res) => {
     // console.log(showPosts)
     .catch ((error) => res.status(404).json({message: error.message}))
 }
+export const getMyProducts = async (req,res) => {
+  const MyProducts = []
+  console.log("uuu",req.user.username);
+  postMessages.find({instructor:req.user.username}) 
+  .then(showPosts =>{
+    console.log("showPosts: ",showPosts);
+    // showPosts.map((p) => {
+    //   if (p.instructor == user.req.username) MyProducts.push(p)
+    // })
+    // console.log("MyProducts: ",MyProducts);
+    
+    res.status(200).json(showPosts)
+  })
+  // console.log(showPosts)
+  .catch ((error) => res.status(404).json({message: error.message}))
+}
 
 export const getPost = async (req,res) => {
     const id = req.params.id
@@ -28,6 +44,81 @@ export const getPost = async (req,res) => {
     // console.log(showPosts)
     .catch ((error) => res.status(404).json({dsf: error.message}))
 }
+export const addToCart = async (req,res) => {
+  const id = req.params.id
+  console.log('id',id);
+  await profiles.findOneAndUpdate({username: req.user.username},{$push:{addToCart:id}})
+  .then(showPost =>{
+    console.log(showPost)
+    res.status(200).json("added")
+  })
+  // console.log(showPosts)
+  .catch ((error) => res.status(404).json({dsf: error.message}))
+}
+
+export const getFromCart = async (req, res) => {
+  try {
+    const theProfile = await profiles.findOne({ username: req.user.username });
+
+    if (theProfile?.addToCart.length > 0) {
+      const myCart = [];
+
+      // Using Promise.all to wait for all asynchronous operations to complete
+      await Promise.all(
+        theProfile.addToCart.map((idProduct) =>
+          postMessages.findById(idProduct).then((product) => {
+            myCart.push(product);
+          }).catch((error) => {
+            console.error(`Error fetching product with id ${idProduct}: ${error.message}`);
+          })
+        )
+      );
+
+      // console.log("Products in the cart is sended successfully");
+      res.status(200).json(myCart);
+    } else {
+      console.log("MyCart is empty");
+      res.status(200).json([]);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const removeFromCart = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const username = req.user.username;
+
+    // Find the user profile
+    const theProfile = await profiles.findOne({ username });
+
+    if (!theProfile) {
+      return res.status(404).json({ error: "User profile not found" });
+    }
+
+    // Check if the product is in the user's cart
+    const productIndex = theProfile.addToCart.indexOf(productId);
+
+    if (productIndex === -1) {
+      return res.status(404).json({ error: "Product not found in the cart" });
+    }
+
+    // Remove the product from the addToCart array
+    theProfile.addToCart.splice(productIndex, 1);
+
+    // Save the updated user profile
+    await theProfile.save();
+
+    console.log("Product removed from the cart successfully");
+    res.status(200).json({ message: "Product removed from the cart successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 
 export const createPost = async (req,res) => {
     const formBody = req.body;

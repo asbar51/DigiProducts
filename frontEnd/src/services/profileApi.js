@@ -36,8 +36,15 @@ export const profileApi = createApi({
                 url: `/delete/${username}`,
                 method: 'delete'
             })
-        })
+        }),
+        addProfileAvatar: builder.mutation({
+            query: (body) => ({
+                url: '/upload/avatar',
+                method: 'post',
+                body
+            })
+        }),
     })
 })
 
-export const {useGetProfileQuery,useLoginProfileMutation,useAddProfileMutation,useUpdateProfileMutation,useDeleteProfileMutation} = profileApi
+export const {useGetProfileQuery,useLoginProfileMutation,useAddProfileMutation,useUpdateProfileMutation,useDeleteProfileMutation,useAddProfileAvatarMutation} = profileApi

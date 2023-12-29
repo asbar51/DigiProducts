@@ -5,8 +5,8 @@ const profileSchema = mongoose.Schema({
     email: String,
     password: String,
     role: { type: String, enum: ['student', 'instructor'], default: 'student' },
-    profilePicture: String,
-    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    profilePicture: {type: String, default:"img"},
+    addToCart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     createdAt: {
         type: Date,
         default: new Date
