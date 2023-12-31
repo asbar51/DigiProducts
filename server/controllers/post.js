@@ -49,7 +49,7 @@ export const addToCart = async (req,res) => {
   console.log('id',id);
   await profiles.findOneAndUpdate({username: req.user.username},{$push:{addToCart:id}})
   .then(showPost =>{
-    console.log(showPost)
+    // console.log(showPost)
     res.status(200).json("added")
   })
   // console.log(showPosts)

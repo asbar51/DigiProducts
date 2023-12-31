@@ -135,7 +135,7 @@ const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUserna
           <DropdownMenuContent className="mr-3 bg-white">
             <DropdownMenuItem className={`text-[16px] hover:bg-gray-300 cursor-pointer font-bold flex justify-center w-full`} onClick={() => navigate(`/update/${id}`)}>
               {/* <Link to={`/update/${id}`} > */}
-                Edit
+                Update
             </DropdownMenuItem>
             <DropdownMenuSeparator />
                <AlertDialog>
