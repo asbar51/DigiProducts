@@ -164,7 +164,7 @@ const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUserna
                         } catch (error) {
                           console.error('Error deleting post:', error);
                         }
-                      }}>Continue
+                      }}>Delete
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
