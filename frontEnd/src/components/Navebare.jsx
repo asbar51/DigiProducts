@@ -156,8 +156,6 @@ const Navebare = () => {
     </div>
         <div className='flex w-full '>
           <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
-          cursor-pointer'>All</span>
-          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
           cursor-pointer'>Website</span>
           <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
           cursor-pointer'>Music</span>
