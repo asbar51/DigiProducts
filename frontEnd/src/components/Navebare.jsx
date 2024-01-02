@@ -46,6 +46,10 @@ const Navebare = () => {
   //     </div>
   // }
 
+  const getCategorie = async (event) => {
+    //
+  }
+
   const logout = async (event) => {
     event.preventDefault()
     try {
