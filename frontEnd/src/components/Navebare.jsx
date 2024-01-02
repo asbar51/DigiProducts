@@ -71,8 +71,8 @@ const Navebare = () => {
           <h1 className='text-blue-700 font-bold text-[35px] mr-20 cursor-pointer' onClick={() => navigate('/')}>Streamara</h1>
           <Input type='search' placeholder='Find digital Products' name="search" className='rounded-none border-[2px] h-[30px] w-[400px]'/><Search className=" bg-black cursor-pointer text-white mr-2 h-[30px] w-[35px] p-1"/>
         </div>
-        <div className='flex gap-10'>
-          <div className='flex gap-5'>
+        <div className='flex gap-8'>
+          <div className='flex gap-10'>
             <BellRing className='cursor-pointer' fill='blue' stroke='blue' />
             <ShoppingCart onClick={() => navigate('/profile/cart')} className='cursor-pointer' fill='blue' stroke='blue' />
             <p onClick={() => navigate('/profile/orders')} className='cursor-pointer font-bold text-blue-700'>Orders</p>
@@ -154,6 +154,24 @@ const Navebare = () => {
           }
         </div>
     </div>
+        <div className='flex w-full '>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>All</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Website</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Music</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Courses</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Books</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Softwares</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Accounts</span>
+          <span className='text-[17px] hover:border-blue-400 border-b-4 py-1 w-[20%] text-center 
+          cursor-pointer'>Bots</span>
+        </div>
     <Outlet />
     </div>
   )
