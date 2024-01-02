@@ -69,6 +69,7 @@ const Create = () => {
                     <Textarea placeholder="Type your description here." required  name="description" />
                     <Input placeholder="Type your price here." required  name="price" />
                     <Input placeholder="Type your stock here." required  name="stock" />
+                    <Input placeholder="Type your categorie here." required  name="categorie" />
                     <Input placeholder="public or private." required  name="public" />
                     <div className='fileUpload_test'>
                         <Input type="file" required onChange={handleImageChange} />

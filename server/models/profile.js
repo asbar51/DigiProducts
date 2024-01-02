@@ -7,6 +7,7 @@ const profileSchema = mongoose.Schema({
     role: { type: String, enum: ['student', 'instructor'], default: 'student' },
     profilePicture: {type: String, default:"img"},
     addToCart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     createdAt: {
         type: Date,
         default: new Date

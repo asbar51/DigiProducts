@@ -8,8 +8,9 @@ import SignUp from "./components/profile/SignUp";
 import Login from "./components/profile/LogIn";
 import Setting from "./components/profile/Setting";
 import ProfileNav from "./components/profile/ProfileNav";
-import MyProducts from "./components/profile/MyProducts";
+import StoreProducts from "./components/profile/StoreProducts.jsx";
 import MyCart from "./components/profile/MyCart";
+import MyOrders from "./components/profile/MyOrders";
 
 
 export default function App() {
@@ -24,8 +25,9 @@ export default function App() {
         <Route path="/posts/:id" element={<PostDetails/>}/>
         <Route path="/profile" element={<ProfileNav/>}/>
         <Route path="/profile/setting" element={<Setting/>}/>
-        <Route path="/profile/store" element={<MyProducts/>}/>
+        <Route path="/store/:username" element={<StoreProducts/>}/>
         <Route path="/profile/cart" element={<MyCart/>}/>
+        <Route path="/profile/orders" element={<MyOrders/>}/>
         <Route path="/sign_up" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
       </Route>

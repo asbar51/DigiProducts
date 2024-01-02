@@ -13,8 +13,8 @@ export const postApi = createApi({
         getAllPosts: builder.query({
             query: () => '/'
         }),
-        getMyProducts: builder.query({
-            query: () => '/my_products'
+        getStore: builder.query({
+            query: (username) => `/store/${username}`
         }),
         getPost: builder.query({
             query: (id) => `/${id}`
@@ -56,8 +56,20 @@ export const postApi = createApi({
                 method: 'delete'
             })
         }),
+        order: builder.mutation({
+            query: (id) => ({
+                url: `/order/${id}`,
+                method: 'post'
+            })
+        }),
+        getOrders: builder.query({
+            query: () => ({
+                url: `/get_orders`
+            })
+        }),
     })
 })
 
 export const {useGetAllPostsQuery,useGetPostQuery,useAddPostMutation,useDeletePostMutation,
-    useUpdatePostMutation,useGetMyProductsQuery,useAddToCartMutation,useGetFromCartQuery,useRemoveFromCartMutation} = postApi
+    useUpdatePostMutation,useGetStoreQuery,useAddToCartMutation,useGetFromCartQuery,
+    useRemoveFromCartMutation,useOrderMutation,useGetOrdersQuery} = postApi

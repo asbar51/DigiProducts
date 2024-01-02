@@ -23,10 +23,10 @@ const Setting = () => {
 
     useEffect(() => {
         if (profile) {
-            setUsernameORG(profile.profile.username)
+            setUsernameORG(profile?.profile?.username)
 
-            setUsername(profile.profile.username)
-            setEmail(profile.profile.email)
+            setUsername(profile?.profile?.username)
+            setEmail(profile?.profile?.email)
         }
     
       

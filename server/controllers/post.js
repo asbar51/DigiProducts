@@ -20,18 +20,20 @@ export const getPosts = async (req,res) => {
     // console.log(showPosts)
     .catch ((error) => res.status(404).json({message: error.message}))
 }
-export const getMyProducts = async (req,res) => {
+export const getStore = async (req,res) => {
   const MyProducts = []
-  console.log("uuu",req.user.username);
-  postMessages.find({instructor:req.user.username}) 
+  const username = req.params.username
+  console.log("uuu",username);
+  const userFound = await profiles.findOne({ username: username })
+  postMessages.find({instructor:username}) 
   .then(showPosts =>{
-    console.log("showPosts: ",showPosts);
+    // console.log("showPosts: ",showPosts);
     // showPosts.map((p) => {
     //   if (p.instructor == user.req.username) MyProducts.push(p)
     // })
     // console.log("MyProducts: ",MyProducts);
-    
-    res.status(200).json(showPosts)
+    console.log("avatar:",userFound?.profilePicture);
+    res.status(200).json({AllPosts:showPosts,avatar:userFound?.profilePicture})
   })
   // console.log(showPosts)
   .catch ((error) => res.status(404).json({message: error.message}))
@@ -44,6 +46,19 @@ export const getPost = async (req,res) => {
     // console.log(showPosts)
     .catch ((error) => res.status(404).json({dsf: error.message}))
 }
+
+export const order = async (req,res) => {
+  const id = req.params.id
+  console.log('id',id);
+  await profiles.findOneAndUpdate({username: req.user.username},{$push:{orders:id}})
+  .then(showPost =>{
+    // console.log(showPost)
+    res.status(200).json("ordered")
+  })
+  // console.log(showPosts)
+  .catch ((error) => res.status(404).json({dsf: error.message}))
+}
+
 export const addToCart = async (req,res) => {
   const id = req.params.id
   console.log('id',id);
@@ -78,6 +93,36 @@ export const getFromCart = async (req, res) => {
       res.status(200).json(myCart);
     } else {
       console.log("MyCart is empty");
+      res.status(200).json([]);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getOrders = async (req, res) => {
+  try {
+    const theProfile = await profiles.findOne({ username: req.user.username });
+
+    if (theProfile?.orders.length > 0) {
+      const myOrders = [];
+
+      // Using Promise.all to wait for all asynchronous operations to complete
+      await Promise.all(
+        theProfile.orders.map((idProduct) =>
+          postMessages.findById(idProduct).then((product) => {
+            myOrders.push(product);
+          }).catch((error) => {
+            console.error(`Error fetching product with id ${idProduct}: ${error.message}`);
+          })
+        )
+      );
+
+      // console.log("Products in the cart is sended successfully");
+      res.status(200).json(myOrders);
+    } else {
+      console.log("orders is empty");
       res.status(200).json([]);
     }
   } catch (error) {

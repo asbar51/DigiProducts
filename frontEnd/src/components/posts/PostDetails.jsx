@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAddToCartMutation, useGetFromCartQuery, useGetPostQuery, useRemoveFromCartMutation } from '../../services/postApi'
+import { useAddToCartMutation, useGetFromCartQuery, useGetOrdersQuery, useGetPostQuery, useOrderMutation, useRemoveFromCartMutation } from '../../services/postApi'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowBigLeft, ArrowLeft, ArrowRight, ArrowUpRight, DollarSign, FastForward, FileVideo, ForwardIcon, Home, LucideLoader2, LucideShoppingCart, LucideStepForward, MoreVertical, ShoppingCart, SkipForward, Star, StarIcon, StepBackIcon, StepForward, TimerIcon } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -11,10 +11,13 @@ const PostDetails = () => {
   const navigate = useNavigate()
   const {id} = useParams()
   const {data:post,isLoading,isError,error} = useGetPostQuery(id)
-  const [addToCart,{data:cartAdded}] = useAddToCartMutation()
   let {data:profile,isLoading:ProfileLoading,refetch:refetchProfile} = useGetProfileQuery()
   let {data:cart,isLoading:isLoadingCart,refetch:refetchCart} = useGetFromCartQuery()
   const [removeFromCart,{data:cartRemoved}] = useRemoveFromCartMutation()
+  const [addToCart,{data:cartAdded}] = useAddToCartMutation()
+  const [order,{data:theOrdes}] = useOrderMutation()
+  let {data:orders,refetch:refetchOrders} = useGetOrdersQuery()
+
 
 
 
@@ -30,6 +33,19 @@ const PostDetails = () => {
       return <div className='border-4 border-red-700 bg-white text-red-800'>
           <strong>{error}</strong>
       </div>
+  }
+
+  const sendOrder = async (id) => {
+    if (post.instructor == profile?.profile?.username) {
+      alert("you are the intructor")
+      
+    } else {
+    console.log("order:",id);
+    await order(id).then(async (resp) => {
+      console.log("the order: ",resp)
+      await refetchOrders()
+      await refetchProfile()
+    })}
   }
 
   const addToCartHandler = async (id) => {
@@ -111,7 +127,7 @@ const PostDetails = () => {
                 ({post.stock})
               </div>
             </div>
-            <Button className="bg-blue-400 font-bold text-[20px] w-full my-2">
+            <Button onClick={() => sendOrder(id)} className="bg-blue-400 font-bold text-[20px] w-full my-2">
               Buy now
             </Button>
             { 

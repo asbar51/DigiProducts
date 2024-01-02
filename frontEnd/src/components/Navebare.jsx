@@ -2,7 +2,7 @@
 import { Button } from './ui/button'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useDeleteProfileMutation, useGetProfileQuery } from '../services/profileApi'
-import { BellRing, Coins, DollarSignIcon, LogOut, LucideLoader2, Search, SettingsIcon, ShoppingCart, User } from 'lucide-react'
+import { BellRing, Coins, DollarSignIcon, ListOrdered, LogOut, LucideLoader2, Search, SettingsIcon, ShoppingCart, User } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import { useGetFromCartQuery } from '../services/postApi'
 
 const Navebare = () => {
   const navigate = useNavigate()
-  let [deleteProfile,{data:profileD,}] = useDeleteProfileMutation()
+  let [deleteProfile,{data:profileD}] = useDeleteProfileMutation()
 
   const [MyProfile,setMyProfile] = useState(null)
   let {data:profile,isLoading,isError,error,refetch} = useGetProfileQuery()
@@ -75,7 +75,7 @@ const Navebare = () => {
           <div className='flex gap-5'>
             <BellRing className='cursor-pointer' fill='white' stroke='white' />
             <ShoppingCart onClick={() => navigate('/profile/cart')} className='cursor-pointer' fill='white' stroke='white' />
-            <p className='font-bold text-white'>Orders</p>
+            <p onClick={() => navigate('/profile/orders')} className='cursor-pointer font-bold text-white'>Orders</p>
           </div>
           
           {
@@ -93,12 +93,19 @@ const Navebare = () => {
 
               </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-3 bg-white">
-            <DropdownMenuItem className={`font-bold w-100`}>
-                <Link to={'/profile'} className={`flex font-bold w-100`}>
-                  <User className="mr-2 h-4 w-4" />
-                    My profile
-                </Link>
-              </DropdownMenuItem>
+              {
+                profile?.profile?.role == "instructor" ?
+                <DropdownMenuItem className={`font-bold w-100`}>
+                  <Link to={`/store/${profile?.profile?.username}`} className={`flex font-bold w-100`}>
+                    <User className="mr-2 h-4 w-4" />
+                      My store
+                  </Link>
+                </DropdownMenuItem> :
+                <DropdownMenuItem className={`font-bold w-100`}>
+                  <Coins className="mr-2 h-4 w-4" />
+                    Become a seller
+                </DropdownMenuItem>
+              }
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link to={'/profile/setting'} className={`flex font-bold w-100`}>
@@ -106,16 +113,30 @@ const Navebare = () => {
                   Settings
                 </Link>
               </DropdownMenuItem>
-
-              <DropdownMenuItem className={`font-bold w-100`}>
-                <Coins className="mr-2 h-4 w-4" />
-                  Become a seller
+              <DropdownMenuItem>
+                <Link to={'/profile/orders'} className={`flex font-bold w-100`}>
+                  <ListOrdered className="mr-2 h-4 w-4" />
+                  My orders
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link to={'/profile/cart'} className={`flex font-bold w-100`}>
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  My cart
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link to={'/profile/notifications'} className={`flex font-bold w-100`}>
+                  <BellRing className="mr-2 h-4 w-4" />
+                  Notifications
+                </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem className={`font-bold w-100`}>
                 <DollarSignIcon className="mr-2 h-4 w-4" />
                   Paiments
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
               
               <DropdownMenuItem variant="outline" onClick={logout} className={`cursor-pointer font-bold w-100`}>
                 <LogOut className="mr-2 h-4 w-4" />

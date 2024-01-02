@@ -20,6 +20,7 @@ const Update = () => {
     const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');
     const [publice, setPublic] = useState('');
+    const [categorie, setCategorie] = useState('');
     const [image, setImage] = useState(null);
 
     const [updatePost, { isLoading: isUpdating, isError: updateError }] = useUpdatePostMutation();
@@ -31,6 +32,7 @@ const Update = () => {
             setPrice(post.price || '');
             setStock(post.stock || '');
             setPublic(post.public || '');
+            setCategorie(post.categorie || '');
         }
     }, [post]);
 
@@ -71,7 +73,7 @@ const Update = () => {
             } else {
                 await refetch1()
                 refetch().then(()=> {
-                    navigate("/profile/store");
+                    navigate("/");
                     console.log('Post is updated successfully');
                 })
             }
@@ -110,6 +112,7 @@ const Update = () => {
                             />
                             <Input placeholder="Type your price here." value={price} onChange={(e) => setPrice(e.target.value)}  name="price" />
                             <Input placeholder="Type your stock here." value={stock} onChange={(e) => setStock(e.target.value)}  name="stock" />
+                            <Input placeholder="Type your categorie here." value={categorie} onChange={(e) => setCategorie(e.target.value)} required  name="categorie" />
                             <Input placeholder="public or private." value={publice} onChange={(e) => setPublic(e.target.value)} name="public" />
                             <div className='fileUpload_test'>
                                 <Input type="file" onChange={handleImageChange} />

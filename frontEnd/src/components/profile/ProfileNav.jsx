@@ -2,9 +2,12 @@ import { Home } from 'lucide-react'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import ProfileAvatar from './ProfileAvatar'
+import { useGetProfileQuery } from '../../services/profileApi'
 
 const ProfileNav = () => {
     const navigate = useNavigate()
+    let {data:profile} = useGetProfileQuery()
+
   return (
     <div className='w-[90%]  m-auto h-[100vh]'>
         <div className='Path flex items-center gap-3 my-5'>
@@ -26,7 +29,7 @@ const ProfileNav = () => {
                 <span className='hover:bg-gray-200 cursor-pointer font-bold rounded-lg pl-3 '
                     onClick={()=> navigate('/profile/setting')}>Setting</span>
                 <span className='hover:bg-gray-200 cursor-pointer font-bold rounded-lg pl-3 '
-                    onClick={()=> navigate('/profile/store')}>My Products</span>
+                    onClick={()=> navigate(`/store/${profile?.profile?.username}`)}>My store</span>
                 <span className='hover:bg-gray-200 cursor-pointer font-bold rounded-lg pl-3 '
                     onClick={()=> navigate('/profile/orders')}>Orders</span>
                 <span className='hover:bg-gray-200 cursor-pointer font-bold rounded-lg pl-3 '

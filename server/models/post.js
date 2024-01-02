@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
     stock: { type: Number,default:0, required: true },
     public: { type: String,default: "public", required: true },
     thumbnail: { type: String, required: true }, // URL for the course thumbnail image
-    categories: [{ type: String }], // Array of categories the course belongs to
+    categorie: { type: String }, // Array of categories the course belongs to
     // ratings: [{ 
     //     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     //     rating: { type: Number, required: true },

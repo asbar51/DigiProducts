@@ -111,7 +111,8 @@ const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUserna
                 <AvatarImage src={`http://localhost:3000/uploads/images/${profile.profile.profilePicture}`} />
                 <AvatarFallback>{instructor[0].toUpperCase()}</AvatarFallback>
               </Avatar> */}
-              <span className="hover:underline cursor-pointer">{instructor}</span>
+              <span className="hover:underline cursor-pointer"
+               onClick={()=> navigate(`/store/${instructor}`)}>{instructor}</span>
             </span>
             <span className='flex items-center text-black'> 5.0 <Star className="h-5" fill='black' strokeWidth={0} /> (75)</span>
           </CardDescription>
