@@ -28,22 +28,10 @@ const StoreProducts = () => {
 
   return (
     <div className='w-[90vw] h-[100vh] m-auto'>
-        <div className='Path flex items-center gap-3 my-5'>
-            <h1 className='font-bold text-center text-[25px] underline flex items-center 
-            gap-2 cursor-pointer' onClick={() => navigate(`/`)}>
-                <Home />
-                {/* Home   */}
-            </h1>
-            <div className='font-bold text-gray-500 text-center text-[25px]'>/</div>
-            <h1 className='font-bold text-center text-[25px]  flex items-center  
-            gap-2 '>
-                {username}
-            </h1>
-            
-        </div>
-        <div className='p-5 m-auto w-[100%] max-[500px]:w-[100%] '>
-            <div className='w-full pb-5 my-3 rounded-full pt-3 bg-blue-300 text-center'>
-                <img src={`http://localhost:3000/uploads/images/${posts.avatar}`} className="w-[110px] border-4 border-blue-500 h-[100px] m-auto rounded-full object-fill"/>
+        
+        <div className=' m-auto w-[100%] max-[500px]:w-[100%] '>
+            <div className='w-full pb-5 my-3 rounded-full pt-2 bg-blue-300 text-center'>
+                <img src={`http://localhost:3000/uploads/images/${posts.avatar}`} className="w-[110px] border-4 border-white h-[100px] m-auto rounded-full object-fill"/>
                 <h1 className='font-bold'>{username.toUpperCase()}</h1>
             </div>
             <div className='flex gap-2'>

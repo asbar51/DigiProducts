@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
     description: { type: String, required: true },
     // instructor: { type: mongoose.Schema.Types.ObjectId, required: true },
     instructor: { type: String, ref: 'profiles', required: true },
+    profilePicture: {type: String, default:"img"},
     // students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     price: { type: Number,default:0, required: true },
     stock: { type: Number,default:0, required: true },

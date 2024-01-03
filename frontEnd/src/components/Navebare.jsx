@@ -73,7 +73,9 @@ const Navebare = () => {
     <div className='w-[100%] h-[50px] bg-white flex justify-between px-5 items-center border-b-2'>
         <div className='flex items-center'>
           <h1 className='text-blue-700 font-bold text-[35px] mr-20 cursor-pointer' onClick={() => navigate('/')}>Streamara</h1>
-          <Input type='search' placeholder='Find digital Products' name="search" className='rounded-none border-[2px] h-[30px] w-[400px]'/><Search className=" bg-black cursor-pointer text-white mr-2 h-[30px] w-[35px] p-1"/>
+          <Input type='search' placeholder='Find digital Products...' name="search" className='rounded-none 
+          border-[2px] h-[30px] w-[600px]'/>
+          <Search className=" bg-black cursor-pointer text-white mr-2 h-[30px] w-[35px] p-1"/>
         </div>
         <div className='flex gap-8'>
           <div className='flex gap-10'>

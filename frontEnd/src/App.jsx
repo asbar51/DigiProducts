@@ -11,6 +11,7 @@ import ProfileNav from "./components/profile/ProfileNav";
 import StoreProducts from "./components/profile/StoreProducts.jsx";
 import MyCart from "./components/profile/MyCart";
 import MyOrders from "./components/profile/MyOrders";
+import CheckoutPage from "./components/posts/checkoutPage.jsx";
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/profile/orders" element={<MyOrders/>}/>
         <Route path="/sign_up" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/checkout/:id" element={<CheckoutPage/>}/>
       </Route>
     </Routes>
     </BrowserRouter>

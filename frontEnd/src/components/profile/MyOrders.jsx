@@ -47,7 +47,7 @@ const MyOrders = () => {
         <div className='p-5 m-auto w-[100%] max-[500px]:w-[100%] '>
             <h1 className='font-bold text-[18px]'>Products in orders :</h1>
             <hr className='my-2'/>
-            <div className='w-[80%] mx-auto'>
+            <div className='w-[60%] mx-auto'>
             {   
                     posts!="logout" ? posts.map(p => (
                         <div className='flex justify-between pb-5 border-b-2 items-center w-full my-5 ' key={ID++}>

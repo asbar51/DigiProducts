@@ -12,6 +12,7 @@ const Create = () => {
     const navigate = useNavigate()
     const [addPost,{data:post, isLoading,isError,error}] = useAddPostMutation()
     let {data:posts,refetch} = useGetAllPostsQuery()
+    
 
     const [MyProfile,setMyProfile] = useState(null)
     let {data:profile} = useGetProfileQuery()
@@ -39,6 +40,7 @@ const Create = () => {
         const formData = new FormData(e.currentTarget)
         console.log("image:",image)
         formData.append('image', image);
+        formData.append('profilePicture', profile?.profile?.profilePicture);
         formData.append('createdAt', createdAt.toLocaleString('en-US', { timeZoneName: 'short' }));
         try {
             await addPost(formData)

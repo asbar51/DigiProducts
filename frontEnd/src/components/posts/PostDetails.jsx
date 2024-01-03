@@ -5,6 +5,17 @@ import { ArrowBigLeft, ArrowLeft, ArrowRight, ArrowUpRight, DollarSign, FastForw
 import { Button } from '../ui/button';
 import { formatDistanceToNow } from "date-fns"
 import { useGetProfileQuery } from '../../services/profileApi';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog"
 
 
 const PostDetails = () => {
@@ -36,7 +47,7 @@ const PostDetails = () => {
   }
 
   const sendOrder = async (id) => {
-    if (post.instructor == profile?.profile?.username) {
+    if (post.Post.instructor == profile?.profile?.username) {
       alert("you are the intructor")
       
     } else {
@@ -49,7 +60,7 @@ const PostDetails = () => {
   }
 
   const addToCartHandler = async (id) => {
-    if (post.instructor == profile?.profile?.username) {
+    if (post.Post.instructor == profile?.profile?.username) {
       alert("you are the intructor")
       
     } else {
@@ -62,7 +73,7 @@ const PostDetails = () => {
   }
 
   const removeFromCartHandler = async (id) => {
-    if (post.instructor == profile?.profile?.username) {
+    if (post.Post.instructor == profile?.profile?.username) {
       alert("you are the intructor")
       return;
     }else {
@@ -74,9 +85,9 @@ const PostDetails = () => {
     })}
   }
 
-  // console.log('the page:',post);
+  console.log('the page:',post.Post);
   console.log("cart : ",profile?.profile?.addToCart);
-  console.log('post id : ', post._id);
+  console.log('post.Post id : ', post.Post._id);
   return (
     <div className='w-[90%]  m-auto'>
       <div className='Path flex items-center gap-3 my-5'>
@@ -94,11 +105,11 @@ const PostDetails = () => {
       {/*  */}
       <div className='grid grid-cols-12  gap-4'>
         <div className='xl:col-span-8 lg:col-span-8 max-md:col-span-12  md:col-span-12'>
-          <img src={`http://localhost:3000/uploads/images/${post.thumbnail}`} className="w-full  h-full object-fill"/>
+          <img src={`http://localhost:3000/uploads/images/${post.Post.thumbnail}`} className="w-full  h-full object-fill"/>
         </div>
         <div className='grid xl:col-span-4 lg:col-span-4 max-md:col-span-12  md:col-span-12 h-auto border-[1px] border-gray-300 flex  flex-col p-5'>
           <div className='gap-5 h-auto py-3'>
-            <h1 className='font-bold text-[25px] my-1'>{post.title}</h1>
+            <h1 className='font-bold text-[25px] my-1'>{post.Post.title}</h1>
             <div className='flex gap-1'>
             <p className='font-bold'>Reviews: 5.0 </p> <Star fill='black' />
             </div>
@@ -107,7 +118,7 @@ const PostDetails = () => {
           <div className='grid grid-cols-4 items-center gap-1 h-[70px] w-full'>
             <p className='font-bold col-start-2 max-sm:col-start-1'>Price: </p> 
             <div className='flex items-center'>
-              <p className='font-bold text-[20px]'>{post.price || 0}</p>
+              <p className='font-bold text-[20px]'>{post.Post.price || 0}</p>
               <DollarSign className='font-bold h-[20px]' strokeWidth={3}  />
             </div>
           </div>
@@ -124,26 +135,90 @@ const PostDetails = () => {
             <div className='grid grid-cols-4 justify-around   h-[70px] w-full'>
               <p className='font-bold max-sm:font-light col-start-2 max-sm:col-start-1'>Stock: </p> 
               <div className='flex  '>
-                ({post.stock})
+                ({post.Post.stock})
               </div>
             </div>
-            <Button onClick={() => sendOrder(id)} className="bg-blue-400 font-bold text-[20px] w-full my-2">
+            
+            <Button onClick={() => navigate(`/checkout/${post.Post._id}`)} className="bg-blue-400 font-bold text-[20px] w-full my-2">
               Buy now
             </Button>
             { 
-              profile?.profile?.addToCart && profile?.profile?.addToCart.includes(post._id) ? (
+              profile?.profile?.addToCart && profile?.profile?.addToCart.includes(post.Post._id) ? (
                 <span>
-                  <Button onClick={() => removeFromCartHandler(id)} className="bg-red-200 font-bold text-red-800 text-[20px] w-full gap-3 hover:text-white">
+                  <AlertDialog>
+                  {/* <DropdownMenuItem className={`cursor-pointer font-bold w-100`}> */}
+                <AlertDialogTrigger className={`flex justify-center py-2 bg-red-200 font-bold text-red-800 text-[20px] w-full gap-3 hover:text-white`}>
+                  <LucideShoppingCart  />
+                  Delete from card
+                </AlertDialogTrigger>
+                  {/* </DropdownMenuItem> */}
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-[15px]">
+                      This action will permanently delete your
+                      product from cart.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className="bg-red-600" onClick={() => {
+                        try {
+                          removeFromCartHandler(id)
+                          .then(() => {
+                            console.log('product is deleted from cart successfully');
+                            // location.assign('/')
+                          })
+                        } catch (error) {
+                          console.error('Error deleting product from cart:', error);
+                        }
+                      }}>Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+                  {/* <Button onClick={() => removeFromCartHandler(id)} className="bg-red-200 font-bold text-red-800 text-[20px] w-full gap-3 hover:text-white">
                       <LucideShoppingCart  />
                       Delete from card
-                    </Button>
+                    </Button> */}
                 </span>
               ) : (
                 <span>
-                  <Button onClick={() => addToCartHandler(id)} className="bg-blue-200 font-bold text-blue-800 text-[20px] w-full gap-3 hover:text-white">
+                  <AlertDialog>
+                  {/* <DropdownMenuItem className={`cursor-pointer font-bold w-100`}> */}
+                <AlertDialogTrigger className={`flex justify-center py-2 bg-blue-300 font-bold text-white-500 text-[20px] w-full gap-3 hover:text-white`}>
+                  <LucideShoppingCart  />
+                  Add to card
+                </AlertDialogTrigger>
+                  {/* </DropdownMenuItem> */}
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Add to cart</AlertDialogTitle>
+                    <AlertDialogDescription className="text-[15px]">
+                      Add this product to cart so you can buy it later.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className="bg-green-600" onClick={() => {
+                        try {
+                          addToCartHandler(id)
+                          .then(() => {
+                            console.log('product is add to cart successfully');
+                            // location.assign('/')
+                          })
+                        } catch (error) {
+                          console.error('Error deleting product from cart:', error);
+                        }
+                      }}>Add
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+                  {/* <Button onClick={() => addToCartHandler(id)} className="bg-blue-200 font-bold text-blue-800 text-[20px] w-full gap-3 hover:text-white">
                     <LucideShoppingCart  />
                     Add to card
-                  </Button>
+                  </Button> */}
                 </span>
               )
             }
@@ -151,16 +226,16 @@ const PostDetails = () => {
         </div>
       </div>
       <div className='xl:col-span-8 lg:col-span-9 max-md:col-span-12  md:col-span-12h-auto bg-gray-200 p-3 my-3 rounded-lg'>
-        <small className='flex font-bold items-end'>date : {formatDistanceToNow(new Date(post.createdAt), { addSuffix:true })} </small>
+        <small className='flex font-bold items-end'>date : {formatDistanceToNow(new Date(post.Post.createdAt), { addSuffix:true })} </small>
         <h1 className='font-bold text-[20px] mt-3'>Product details</h1>
         <p>
-          {post.description}
+          {post.Post.description}
         </p> <br />
       </div>
       <div className='xl:col-span-8 lg:col-span-9 max-md:col-span-12  md:col-span-12 h-auto bg-gray-200 p-3 my-3 rounded-lg'>
         <h1 className='font-bold text-[20px] mt-3'>Reviews :</h1>
         <p>
-        <small className='flex font-bold items-end'>date : {formatDistanceToNow(new Date(post.createdAt), { addSuffix:true })} </small>
+        <small className='flex font-bold items-end'>date : {formatDistanceToNow(new Date(post.Post.createdAt), { addSuffix:true })} </small>
           the Review message
         </p> <br />
       </div>

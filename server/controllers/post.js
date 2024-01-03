@@ -42,7 +42,11 @@ export const getStore = async (req,res) => {
 export const getPost = async (req,res) => {
     const id = req.params.id
     postMessages.findById(id)
-    .then(showPost =>res.status(200).json(showPost))
+    .then(async (showPost) => {
+      
+      const userFound = await profiles.findOne({ username: showPost.instructor })
+      res.status(200).json({Post:showPost,avatar:userFound?.profilePicture})
+    })
     // console.log(showPosts)
     .catch ((error) => res.status(404).json({dsf: error.message}))
 }

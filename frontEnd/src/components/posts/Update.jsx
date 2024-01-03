@@ -5,6 +5,7 @@ import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetAllPostsQuery, useGetPostQuery, useUpdatePostMutation } from '../../services/postApi'
+import { useGetProfileQuery } from '../../services/profileApi'
 
 const Update = () => {
     const navigate = useNavigate();
@@ -24,15 +25,17 @@ const Update = () => {
     const [image, setImage] = useState(null);
 
     const [updatePost, { isLoading: isUpdating, isError: updateError }] = useUpdatePostMutation();
+    let {data:profile} = useGetProfileQuery()
+
 
     useEffect(() => {
-        if (post) {
-            setTitle(post.title || '');
-            setDescription(post.description || '');
-            setPrice(post.price || '');
-            setStock(post.stock || '');
-            setPublic(post.public || '');
-            setCategorie(post.categorie || '');
+        if (post?.Post) {
+            setTitle(post.Post.title || '');
+            setDescription(post.Post.description || '');
+            setPrice(post.Post.price || '');
+            setStock(post.Post.stock || '');
+            setPublic(post.Post.public || '');
+            setCategorie(post.Post.categorie || '');
         }
     }, [post]);
 
@@ -62,6 +65,7 @@ const Update = () => {
         const formData = new FormData(e.currentTarget)
         console.log("image:",image || 'no image')
         formData.append('image', image);
+        formData.append('profilePicture', profile?.profile?.profilePicture);
         formData.append('createdAt', createdAt.toLocaleString('en-US', { timeZoneName: 'short' }));
         console.log("formData:", formData.get("image"));
         

@@ -26,7 +26,7 @@ import { useEffect, useState } from "react";
 import { useGetProfileQuery } from "../../services/profileApi";
 
 
-const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUsername,instructor}) => {
+const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUsername,instructor,sellerAvatar}) => {
   const navigate = useNavigate()
 
   let {data:posts,refetch} = useGetAllPostsQuery()
@@ -72,7 +72,7 @@ const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUserna
   // console.log("_____________");
   // console.log("inCart: ", inCart)
   // console.log("id: ", id)
-  // console.log("profileUsername: ", profileUsername)
+  console.log("profileUsername: ", sellerAvatar)
   return (
     <div>
       <Card className="relative max-sm:w-[270px]  m-auto border-solid border-1 border-gray-600 rounded 
@@ -112,7 +112,16 @@ const Course = ({inCart,thumbnail,title,createdAt,price,reviews,id,profileUserna
                 <AvatarFallback>{instructor[0].toUpperCase()}</AvatarFallback>
               </Avatar> */}
               <span className="hover:underline cursor-pointer"
-               onClick={()=> navigate(`/store/${instructor}`)}>{instructor}</span>
+               onClick={()=> navigate(`/store/${instructor}`)}>
+                <span className='flex items-center ml-3'>
+                  <Avatar>
+                      
+                      <AvatarImage src={`http://localhost:3000/uploads/images/${sellerAvatar}`} /> :
+                      {/* <AvatarFallback>{post.instructor[0].toUpperCase()}</AvatarFallback> */}
+                  </Avatar>
+                  <span className='font-bold p-3'>{instructor}</span>
+                </span>
+           </span>
             </span>
             <span className='flex items-center text-black'> 5.0 <Star className="h-5" fill='black' strokeWidth={0} /> (75)</span>
           </CardDescription>
