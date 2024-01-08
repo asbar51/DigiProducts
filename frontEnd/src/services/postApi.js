@@ -57,9 +57,10 @@ export const postApi = createApi({
             })
         }),
         order: builder.mutation({
-            query: (id) => ({
+            query: ({id,body}) => ({
                 url: `/order/${id}`,
-                method: 'post'
+                method: 'post',
+                body
             })
         }),
         getOrders: builder.query({

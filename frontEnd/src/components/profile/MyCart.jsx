@@ -51,7 +51,8 @@ const MyCart = () => {
             {   
                     posts!="logout" ? posts.map(p => (
                         
-                        <Course id={p._id} inCart={profile?.profile?.addToCart} thumbnail={p.thumbnail} price={p.price} instructor={p.instructor} profileUsername={profile?.profile?.username} title={p.title} createdAt={p.createdAt} key={ID++} />
+                        <Course id={p._id} inCart={profile?.profile?.addToCart} thumbnail={p.thumbnail} price={p.price} instructor={p.instructor}
+                        sellerAvatar={p.profilePicture} profileUsername={profile?.profile?.username} title={p.title} createdAt={p.createdAt} key={ID++} />
                         
                     ))
                     :

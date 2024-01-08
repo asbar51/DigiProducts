@@ -28,10 +28,6 @@ export const getStore = async (req,res) => {
   postMessages.find({instructor:username}) 
   .then(showPosts =>{
     // console.log("showPosts: ",showPosts);
-    // showPosts.map((p) => {
-    //   if (p.instructor == user.req.username) MyProducts.push(p)
-    // })
-    // console.log("MyProducts: ",MyProducts);
     console.log("avatar:",userFound?.profilePicture);
     res.status(200).json({AllPosts:showPosts,avatar:userFound?.profilePicture})
   })
@@ -204,10 +200,10 @@ export const createPost = async (req,res) => {
 
 export const updatePost = async (req,res) => {
     const id = req.params.id
-    console.log('id :', id);
+    // console.log('id :', id);
     const formBody = req.body;
-    console.log('body :', formBody);
-    console.log('File uploaded:', req.file);
+    // console.log('body :', formBody);
+    // console.log('File uploaded:', req.file);
     const filePath = (req?.file?.path) ?req.file.path: null;
     const fileName = (req?.file?.filename) ?req.file.filename: null;
     

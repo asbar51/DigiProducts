@@ -139,7 +139,7 @@ const PostDetails = () => {
               </div>
             </div>
             
-            <Button onClick={() => navigate(`/checkout/${post.Post._id}`)} className="bg-blue-400 font-bold text-[20px] w-full my-2">
+            <Button onClick={() => navigate(`/checkout/${post.Post._id}/quantity/${QuantityNumber}/price/${post.Post.price}`)} className="bg-blue-400 font-bold text-[20px] w-full my-2">
               Buy now
             </Button>
             { 

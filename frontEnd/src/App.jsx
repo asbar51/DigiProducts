@@ -31,7 +31,7 @@ export default function App() {
         <Route path="/profile/orders" element={<MyOrders/>}/>
         <Route path="/sign_up" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/checkout/:id" element={<CheckoutPage/>}/>
+        <Route path="/checkout/:id/quantity/:quantity/price/:price" element={<CheckoutPage/>}/>
       </Route>
     </Routes>
     </BrowserRouter>

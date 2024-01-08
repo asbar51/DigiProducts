@@ -42,7 +42,9 @@ const StoreProducts = () => {
             <div className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5'>
             {   
                     posts!="logout" ? posts.AllPosts.map(p => (
-                        <Course id={p._id} thumbnail={p.thumbnail} price={p.price} instructor={p.instructor} profileUsername={profile?.profile?.username} title={p.title} createdAt={p.createdAt} key={ID++} />
+                        <Course id={p._id} thumbnail={p.thumbnail} price={p.price} sellerAvatar={p.profilePicture}
+                            instructor={p.instructor} profileUsername={profile?.profile?.username} 
+                            title={p.title} createdAt={p.createdAt} key={ID++} />
                         
                     ))
                     :
