@@ -47,16 +47,22 @@ export const getPost = async (req,res) => {
     .catch ((error) => res.status(404).json({dsf: error.message}))
 }
 
-export const order = async (req,res) => {
-  const id = req.params.id
-  console.log('id',id);
-  await profiles.findOneAndUpdate({username: req.user.username},{$push:{orders:id}})
+export const order = async (ProudctId,username) => {
+  // const id = req.params.id
+  console.log('id',ProudctId);
+  await profiles.findOneAndUpdate({username: username},{$push:{orders:ProudctId}})
   .then(showPost =>{
     // console.log(showPost)
-    res.status(200).json("ordered")
+    // res.status(200).json("ordered")
+    console.log("ordered");
+    return true
   })
   // console.log(showPosts)
-  .catch ((error) => res.status(404).json({dsf: error.message}))
+  .catch ((error) => {
+    // res.status(404).json({dsf: error.message})
+    console.log("error : ", error.message);
+    return false
+  })
 }
 
 export const addToCart = async (req,res) => {

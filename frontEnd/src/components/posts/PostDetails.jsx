@@ -105,7 +105,7 @@ const PostDetails = () => {
       {/*  */}
       <div className='grid grid-cols-12  gap-4'>
         <div className='xl:col-span-8 lg:col-span-8 max-md:col-span-12  md:col-span-12'>
-          <img src={`http://localhost:3000/uploads/images/${post.Post.thumbnail}`} className="w-full  h-full object-fill"/>
+          <img src={`http://localhost:3000/uploads/images/${post.Post.thumbnail}`} className="w-full max-h-[450px] object-fill"/>
         </div>
         <div className='grid xl:col-span-4 lg:col-span-4 max-md:col-span-12  md:col-span-12 h-auto border-[1px] border-gray-300 flex  flex-col p-5'>
           <div className='gap-5 h-auto py-3'>

@@ -63,10 +63,10 @@ const CheckoutPage = () => {
                 </div>
             </div>
             
-            <div className='sticky top-5 h-[300px] rounded col-span-3  border-gray-300 border-2 '>
+            <div className='sticky top-5 max-h-[320px] rounded col-span-3  border-gray-300 border-2 '>
                 <div className=''>
                     <div className='flex bg-gray-300 p-3 rounded'>
-                        <img src={`http://localhost:3000/uploads/images/${post?.Post?.thumbnail}`} className='w-[40%]' alt="" />
+                        <img src={`http://localhost:3000/uploads/images/${post?.Post?.thumbnail}`} className='w-[40%] max-h-[70px]' alt="" />
                         <h1 className='w-auto ml-5 font-bold'>{post?.Post?.title}</h1>
                     </div>
                     <div className='flex justify-center gap-5 items-center gap-1 h-[70px] w-full'>

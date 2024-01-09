@@ -25,8 +25,10 @@ const PaypalPayment = ({id,quantity,price}) => {
         // Order is created on the server and the order id is returned
         return fetch("http://localhost:3000/posts/api/orders", {
           method: "POST",
+          credentials: "include",
            headers: {
             "Content-Type": "application/json",
+            "credentials": "include",
           },
           // use the "body" param to optionally pass additional order information
           // like product skus and quantities
@@ -46,18 +48,23 @@ const PaypalPayment = ({id,quantity,price}) => {
          // Order is captured on the server and the response is returned to the browser
          return fetch(`http://localhost:3000/posts/api/orders/${data.orderID}/capture`, {
           method: "POST",
+          credentials: "include",
            headers: {
             "Content-Type": "application/json",
+            "credentials": "include",
           },
           body: JSON.stringify({
-            orderID: data.orderID
+            orderID: data.orderID,
+            productId: id
           })
         })
-        .then((response) => {
-            console.log("Payment successful");
-            return response.json()
+        .then( (response) => response.json())
+        .then(async (order) => {
+          await refetchOrders()
+          await refetchProfile()
+          console.log("Payment successful");
+          console.log("order: ",order)
         })
-        .then(order => console.log("order: ",order))
       };
 
       

@@ -12,7 +12,7 @@ router.get('/', getPosts)
 router.get('/store/:username',tokenChecker, getStore)
 router.get('/get_from_cart',tokenChecker, getFromCart)
 router.get('/get_orders',tokenChecker, getOrders)
-router.post('/order/:id',tokenChecker, order)
+// router.post('/order/:id',tokenChecker, order)
 router.post('/add_to_cart/:id',tokenChecker, addToCart)
 router.delete('/cart/:id', tokenChecker, removeFromCart);
 router.post('/', tokenChecker, uploadFile, createPost);  // Change the order of middlewares
@@ -22,7 +22,7 @@ router.route("/:id")
 .delete(tokenChecker, deletePost)
 
 // Paypal payment
-router.post("/api/orders", async (req, res) => {
+router.post("/api/orders", tokenChecker, async (req, res) => {
     try {
       // use the cart information passed from the front-end to calculate the order amount detals
       const { cart } = req.body;
@@ -34,11 +34,13 @@ router.post("/api/orders", async (req, res) => {
     }
 });
 
-router.post("/api/orders/:orderID/capture", async (req, res) => {
+router.post("/api/orders/:orderID/capture", tokenChecker, async (req, res) => {
     try {
       const { orderID } = req.params;
       const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
       console.log("Paiment successfull for id: ",orderID);
+      
+      order(req.body.productId ,req.user.username)
       res.status(httpStatusCode).json(jsonResponse);
     } catch (error) {
       console.error("Failed to create order:", error);
