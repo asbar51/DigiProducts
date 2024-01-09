@@ -17,7 +17,15 @@ import { Home, LucideLoader2, Plus } from 'lucide-react'
 import { Button } from '../ui/button'
 import Course from './Course'
 import { useGetProfileQuery } from '../../services/profileApi'
-
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+  } from "../ui/pagination"
 
 
 const Posts = () => {
@@ -72,7 +80,31 @@ const Posts = () => {
                         
                     ))
                 }
-                </div>
+            </div>
+            <Pagination className={"my-5"}>
+                <PaginationContent>
+                    <PaginationItem>
+                    <PaginationPrevious href="#" />
+                    </PaginationItem>
+                    <PaginationItem>
+                    <PaginationLink href="#" isActive>1</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                    <PaginationLink href="#" >
+                        2
+                    </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                    <PaginationEllipsis />
+                    </PaginationItem>
+                    <PaginationItem>
+                    <PaginationNext href="#" />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </div>
     </div>
   )

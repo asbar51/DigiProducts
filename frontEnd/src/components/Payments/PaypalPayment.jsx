@@ -66,7 +66,6 @@ const PaypalPayment = ({id,quantity,price}) => {
           console.log("order: ",order)
         })
       };
-
       
     return ( 
         <PayPalButtons
